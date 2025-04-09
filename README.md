@@ -58,3 +58,4 @@ Como la API **no devuelve una lista personalizada de objetos creados**, usaremos
 - Manejá estados con `useState` y efectos con `useEffect` si lo necesitás.
 - Podés usar `localStorage.getItem()` y `localStorage.setItem()` para guardar y recuperar el `id`.
 - No hace falta listar objetos de la API, ya que no son filtrables por usuario.
+# Evaluacion_Unicornio
