@@ -1,42 +1,83 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  background-color: #121212;
+  color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1, h3 {
+  color: #ffffff;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input, button {
+  background-color: #1f1f1f;
+  border: 1px solid #444;
+  color: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  transition: all 0.3s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+input:focus, button:focus {
+  border-color: #8ab4f8;
+  outline: none;
 }
 
-.card {
-  padding: 2em;
+button {
+  cursor: pointer;
+  background-color: #333;
 }
 
-.read-the-docs {
-  color: #888;
+button:hover {
+  background-color: #444;
+}
+
+div {
+  background-color: #1a1a1a;
+}
+
+pre {
+  background-color: #222;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: #dcdcdc;
+  overflow-x: auto;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.border {
+  border: 1px solid #333;
+}
+
+.rounded {
+  border-radius: 0.5rem;
+}
+
+.bg-gray-100 {
+  background-color: #1e1e1e;
 }

@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import FormCreate from "./components/FormCreate";
+import FormEdit from "./components/FormEdit";
+import UnicornsView from "./components/UnicornsView";
 
-export default function ApiCrud() {
+const API_BASE = "https://crudcrud.com/api/d654a5b6d1b6441eb10d5aecba8199ce/unicorns";
+
+export default function UnicornsContainer() {
   const [name, setName] = useState("");
-  const [features, setFeatures] = useState("");
-  const [price, setPrice] = useState("");
-  const [year, setYear] = useState("");
+  const [color, setColor] = useState("");
+  const [age, setAge] = useState("");
+  const [power, setPower] = useState("");
+
   const [response, setResponse] = useState(null);
-  const [objectId, setObjectId] = useState(localStorage.getItem("objectId"));
-  const [editFeature, setEditFeature] = useState("");
-  const [editPrice, setEditPrice] = useState("");
+  const [objectId, setObjectId] = useState(localStorage.getItem("unicornId"));
+
+  const [editName, setEditName] = useState("");
+  const [editColor, setEditColor] = useState("");
+  const [editAge, setEditAge] = useState("");
+  const [editPower, setEditPower] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       name,
-      data: {
-        features,
-        price: Number(price),
-        year: Number(year),
-      },
+      color,
+      age: Number(age),
+      power,
     };
 
-    const res = await fetch("https://api.restful-api.dev/objects", {
+    const res = await fetch(API_BASE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -30,79 +37,90 @@ export default function ApiCrud() {
     const result = await res.json();
     console.log("POST Response:", result);
     setResponse(result);
-    localStorage.setItem("objectId", result.id);
-    setObjectId(result.id);
+    localStorage.setItem("unicornId", result._id);
+    setObjectId(result._id);
   };
 
   const handleEdit = async () => {
-    if (!objectId) return alert("No object ID found in localStorage");
+    if (!objectId) return alert("No unicorn ID found in localStorage");
+
     const data = {
-      data: {
-        features: editFeature,
-        price: Number(editPrice),
-      },
+      name: editName || name,
+      color: editColor || color,
+      age: Number(editAge || age),
+      power: editPower || power,
     };
 
-    const res = await fetch(`https://api.restful-api.dev/objects/${objectId}`, {
+    const res = await fetch(`${API_BASE}/${objectId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
-    const result = await res.json();
-    console.log("PUT Response:", result);
-    setResponse(result);
+    console.log("PUT Response:", await res.text());
+    setResponse({
+      name: editName || name,
+      color: editColor || color,
+      age: Number(editAge || age),
+      power: editPower || power,
+      _id: objectId,
+    });
   };
 
   const handleDelete = async () => {
-    if (!objectId) return alert("No object ID found in localStorage");
-    const res = await fetch(`https://api.restful-api.dev/objects/${objectId}`, {
+    if (!objectId) return alert("No unicorn ID found in localStorage");
+
+    const res = await fetch(`${API_BASE}/${objectId}`, {
       method: "DELETE",
     });
 
     if (res.ok) {
-      console.log("Object deleted successfully");
-      alert("Object deleted successfully");
-      localStorage.removeItem("objectId");
+      console.log("Unicornio eliminado correctamente");
+      alert("Unicornio eliminado correctamente");
+      localStorage.removeItem("unicornId");
       setObjectId(null);
       setResponse(null);
+      setName("");
+      setColor("");
+      setAge("");
+      setPower("");
     } else {
-      console.error("Failed to delete object");
+      console.error("Error al eliminar unicornio");
     }
   };
 
   return (
     <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Crear Objeto</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} required className="w-full p-2 border rounded" />
-        <input type="text" placeholder="Características" value={features} onChange={(e) => setFeatures(e.target.value)} required className="w-full p-2 border rounded" />
-        <input type="number" placeholder="Precio" value={price} onChange={(e) => setPrice(e.target.value)} required className="w-full p-2 border rounded" />
-        <input type="number" placeholder="Año" value={year} onChange={(e) => setYear(e.target.value)} required className="w-full p-2 border rounded" />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Crear</button>
-      </form>
+      <h1 className="text-2xl font-bold mb-4 text-center">✨ Crear Unicornio ✨</h1>
+
+      <FormCreate
+        name={name}
+        setName={setName}
+        color={color}
+        setColor={setColor}
+        age={age}
+        setAge={setAge}
+        power={power}
+        setPower={setPower}
+        handleSubmit={handleSubmit}
+      />
 
       {objectId && (
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-2">Editar Objeto</h2>
-          <input type="text" placeholder="Nuevas características" value={editFeature} onChange={(e) => setEditFeature(e.target.value)} className="w-full p-2 border rounded mb-2" />
-          <input type="number" placeholder="Nuevo precio" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="w-full p-2 border rounded mb-2" />
-          <button onClick={handleEdit} className="bg-yellow-500 text-white px-4 py-2 rounded">Actualizar</button>
-        </div>
+        <FormEdit
+          editName={editName}
+          setEditName={setEditName}
+          editColor={editColor}
+          setEditColor={setEditColor}
+          editAge={editAge}
+          setEditAge={setEditAge}
+          editPower={editPower}
+          setEditPower={setEditPower}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
       )}
 
-      {objectId && (
-        <div className="mt-6">
-          <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded">Eliminar Objeto</button>
-        </div>
-      )}
-
-      {response && (
-        <div className="mt-6 p-4 border rounded bg-gray-100">
-          <h3 className="font-bold mb-2">Respuesta de la API:</h3>
-          <pre>{JSON.stringify(response, null, 2)}</pre>
-        </div>
-      )}
+      {response && <UnicornsView unicorn={response} />}
     </div>
   );
 }
