@@ -1,15 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import UnicornsContainer from "./components/UnicornsContainerr";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { UnicornProvider } from './components/context/UnicornContext';
+import UnicornRoutes from './components/UnicornRoutes';
+import Navbar from './components/Navbar'; // <-- Importamos el navbar
 
-export default function App() {
-  return (
+const App = () => (
+  <UnicornProvider>
     <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/unicornios" />} />
-        <Route path="/unicornios" element={<UnicornsContainer />} />
-        {/* Podés agregar más rutas si hacen más vistas, como /about, /contacto, etc */}
-      </Routes>
+      <Navbar />            {/* Mostramos el navbar arriba */}
+      <UnicornRoutes />     {/* Rutas del módulo de unicornios */}
     </Router>
-  );
-}
+  </UnicornProvider>
+);
+
+export default App;  

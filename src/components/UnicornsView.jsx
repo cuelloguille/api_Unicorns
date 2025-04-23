@@ -1,25 +1,45 @@
-// Importa React para poder usar JSX
-import React from "react";
+import React from 'react';
+import { useUnicorns } from './context/UnicornContext';
+import { useNavigate } from 'react-router-dom';
 
-// Componente funcional que recibe un unicornio como prop
-export default function UnicornsView({ unicorn }) {
-  // Si no se proporciona un unicornio, no renderiza nada
-  if (!unicorn) return null;
+const UnicornsView = () => {
+  const { unicorns, deleteUnicorn } = useUnicorns();
+  const navigate = useNavigate();
 
-  // Extrae las propiedades relevantes del objeto unicornio
-  const { name, color, age, power } = unicorn;
+  const handleEdit = (id) => {
+    navigate(`/unicornios/editar/${id}`);
+  };
 
   return (
-    // Contenedor con estilos: margen superior, padding, borde, esquinas redondeadas y sombra
-    <div className="mt-6 p-4 border rounded bg-white shadow-md">
-      {/* Título del bloque con un emoji y estilos personalizados */}
-      <h2 className="text-xl font-bold text-purple-600 mb-2">🦄 Tu Unicornio</h2>
-
-      {/* Muestra cada propiedad del unicornio en una línea */}
-      <p><strong>Nombre:</strong> {name}</p>
-      <p><strong>Color:</strong> {color}</p>
-      <p><strong>Edad:</strong> {age}</p>
-      <p><strong>Poder:</strong> {power}</p>
+    <div>
+      <h2>Lista de Unicornios</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Poderes</th>
+            <th>Color</th>
+            <th>Edad</th>  {/* Nueva columna para la edad */}
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {unicorns.map(unicorn => (
+            <tr key={unicorn._id}>
+              <td>{unicorn.name}</td>
+              <td>{unicorn.power}</td>
+              <td>{unicorn.color}</td>
+              <td>{unicorn.age}</td>  {/* Mostrar la edad del unicornio */}
+              <td>
+                <button onClick={() => deleteUnicorn(unicorn._id)}>Eliminar</button>
+                <button onClick={() => handleEdit(unicorn._id)}>Editar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
+
+export default UnicornsView;
