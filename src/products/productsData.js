@@ -1,18 +1,7 @@
-// src/products/productsData.js
-
-export const initialProducts = [
-  {
-    id: 1,
-    name: 'Unicornio Azul',
-    powers: 'Volar',
-    age: 120,
-    color: 'Azul'
-  },
-  {
-    id: 2,
-    name: 'Unicornio Rosa',
-    powers: 'Curación',
-    age: 200,
-    color: 'Rosa'
-  }
-];
+// productsData.js
+export const productsData = [
+    { id: 1, name: "Laptop", price: 1200 },
+    { id: 2, name: "Smartphone", price: 800 },
+    { id: 3, name: "Tablet", price: 500 },
+  ];
+  
